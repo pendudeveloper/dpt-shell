@@ -4,13 +4,20 @@ plugins {
     id 'com.android.application' version '8.10.0' apply false
 }
 
-static def generateHexString() {
+static def generateSafePackageName() {
     def secureRandom = new SecureRandom()
-    return Long.toHexString(secureRandom.nextLong())
+    def hex = Long.toHexString(secureRandom.nextLong()).replace('-', '')
+    return "x" + hex
+}
+
+static def generateSafeSoName() {
+    def secureRandom = new SecureRandom()
+    def hex = Long.toHexString(secureRandom.nextLong()).replace('-', '')
+    return "dpt_" + hex
 }
 
 ext {
-    soName = generateHexString()
+    shellPackageName = generateSafePackageName()
+    soName = generateSafeSoName()
     fullSoName = "lib${soName}.so"
-    shellPackageName = generateHexString()
 }
